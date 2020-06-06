@@ -56,3 +56,4 @@ ExecStop=screen -p 0 -S minecraft -X eval 'stuff "stop"\015'
 WantedBy=multi-user.target
 EOF
 systemctl enable minecraft
+systemctl start minecraft
