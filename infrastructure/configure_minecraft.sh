@@ -18,7 +18,7 @@ java -jar BuildTools.jar
 # Import the geekzone world and config from s3
 #  -- todo: pass bucket name in as parameter
 aws s3 cp s3://minecraft-backup-mcbackup40c441f6-15b0akb5r6j18/current-world/ /opt/geekzone-world --recursive
-# todo: import config from aws
+aws s3 cp s3://minecraft-backup-mcbackup40c441f6-15b0akb5r6j18/current-config/ /opt/geekzone-minecraft-config --recursive
 
 # Ensure permissions are correct
 chown -R minecraft:minecraft /opt/minecraft-server
