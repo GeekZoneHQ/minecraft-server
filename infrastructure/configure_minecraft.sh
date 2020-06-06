@@ -42,7 +42,7 @@ ReadWritePaths=/opt/geekzone-world
 ReadWritePaths=/opt/minecraft-server
 
 WorkingDirectory=/opt/geekzone-minecraft-config
-ExecStart=screen -dmS minecraft java -Dcom.mojang.eula.agree=true -jar /opt/minecraft-server/spigot-1.15.2.jar nogui --world-dir /opt/geekzone-world/
+ExecStart=screen -dmS minecraft java -server -Xms512M -Xmx2048M -XX:+UseG1GC -Dcom.mojang.eula.agree=true -jar /opt/minecraft-server/spigot-1.15.2.jar nogui --world-dir /opt/geekzone-world/
 ExecStop=screen -p 0 -S minecraft -X eval 'stuff "say SERVER SHUTTING DOWN IN 15 SECONDS"\015'
 ExecStop=/bin/sleep 5
 ExecStop=screen -p 0 -S minecraft -X eval 'stuff "say SERVER SHUTTING DOWN IN 10 SECONDS"\015'
