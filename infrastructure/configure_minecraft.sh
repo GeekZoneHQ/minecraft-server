@@ -25,7 +25,61 @@ chown -R minecraft:minecraft /opt/minecraft-server
 chown -R minecraft:minecraft /opt/geekzone-world
 chown -R minecraft:minecraft /opt/geekzone-minecraft-config
 
-# Setup systemd unit
+# Create backup script
+mkdir /opt/minecraft-utils
+cat <<EOF > /opt/minecraft-utils/backup-minecraft.sh
+#!/bin/bash
+set -e
+
+if [ ! \$(whoami) = "root" ]; then
+    echo "Backup script must be run as root or using sudo"
+    echo "currently logged in as \$(whoami)"
+    exit 1
+fi
+
+set -x
+
+DATETIME=\$(date +"%F-%H-%M-%S")
+BUCKET=minecraft-backup-mcbackup40c441f6-15b0akb5r6j18
+
+# Move current-world and current-config to new location
+aws s3 mv s3://\$BUCKET/current-world s3://\$BUCKET/world-\$DATETIME --recursive
+aws s3 mv s3://\$BUCKET/current-config s3://\$BUCKET/config-\$DATETIME --recursive
+
+# Upload the current config on the server
+aws s3 cp /opt/geekzone-world s3://\$BUCKET/current-world --recursive
+aws s3 cp /opt/geekzone-minecraft-config s3://\$BUCKET/current-config --recursive
+EOF
+chmod +x /opt/minecraft-utils/backup-minecraft.sh
+
+# Setup backup systemd unit
+cat <<EOF > /etc/systemd/system/minecraft-backup.service
+[Unit]
+Description=Stop and backup the minecraft server
+
+[Service]
+Type=oneshot
+ExecStart=systemctl stop minecraft
+ExecStart=/opt/minecraft-utils/backup-minecraft.sh
+ExecStop=systemctl start minecraft
+EOF
+
+# Setup backup systemd timer
+cat <<EOF > /etc/systemd/system/minecraft-backup.timer
+[Unit]
+Description=Backup the minecraft server once a day
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Unit=minecraft-backup.service
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl enable minecraft-backup.timer
+systemctl start minecraft-backup.timer
+
+# Setup minecraft systemd unit
 cat <<EOF > /etc/systemd/system/minecraft.service
 [Unit]
 Description=Geekzone spigot minecraft server
@@ -51,6 +105,7 @@ ExecStop=screen -p 0 -S minecraft -X eval 'stuff "say SERVER SHUTTING DOWN IN 5 
 ExecStop=/bin/sleep 5
 ExecStop=screen -p 0 -S minecraft -X eval 'stuff "save-all"\015'
 ExecStop=screen -p 0 -S minecraft -X eval 'stuff "stop"\015'
+ExecStop=sh /opt/minecraft-utils/backup-minecraft.sh
 
 [Install]
 WantedBy=multi-user.target

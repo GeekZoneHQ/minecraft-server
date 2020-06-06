@@ -39,10 +39,13 @@ class MinecraftServer(core.Stack):
             actions=[
                 "s3:GetObject",
                 "s3:ListBucket",
-                "s3:PutObject"]))
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ]
+        ))
 
         instance = ec2.Instance(self, "MinecraftEC2",
-            instance_type=ec2.InstanceType("c5a.large"),
+            instance_type=ec2.InstanceType("t3.medium"),
             machine_image=ubuntu_lts,
             vpc=vpc,
             security_group=security_group,
