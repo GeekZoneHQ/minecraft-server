@@ -42,7 +42,7 @@ class MinecraftServer(core.Stack):
                 "s3:PutObject"]))
 
         instance = ec2.Instance(self, "MinecraftEC2",
-            instance_type=ec2.InstanceType("t3.small"),
+            instance_type=ec2.InstanceType("c5a.large"),
             machine_image=ubuntu_lts,
             vpc=vpc,
             security_group=security_group,
