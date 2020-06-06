@@ -36,7 +36,10 @@ class MinecraftServer(core.Stack):
                 backup_bucket.bucket_arn,
                 backup_bucket.bucket_arn + "/*"
             ],
-            actions=["s3:GetObject", "s3:ListBucket"]))
+            actions=[
+                "s3:GetObject",
+                "s3:ListBucket",
+                "s3:PutObject"]))
 
         instance = ec2.Instance(self, "MinecraftEC2",
             instance_type=ec2.InstanceType("t3.small"),
