@@ -24,3 +24,11 @@ At the moment we are using a basic ubuntu 20.04 image. My plan is to generate an
 of the require stuff inside of it using something like Packer.
 
 For now this is managed in the userdata script.
+
+## Accessing the console
+At the moment this can be done by logging into the minecraft server and entering the screen session.
+```
+sudo su - minecraft
+screen -r minecraft
+```
+When you are finished with the console press `ctrl-a d` to detach from the screen session.
