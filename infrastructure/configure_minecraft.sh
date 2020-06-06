@@ -32,7 +32,7 @@ Description=Geekzone spigot minecraft server
 After=network.target
 
 [Service]
-Type=oneshot
+Type=forking
 User=minecraft
 Group=minecraft
 KillMode=none
