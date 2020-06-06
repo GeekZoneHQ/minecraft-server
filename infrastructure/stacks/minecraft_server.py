@@ -47,3 +47,7 @@ class MinecraftServer(core.Stack):
             role=role)
         setup_file = open("./configure_minecraft.sh", "rb").read()
         instance.user_data.add_commands(str(setup_file, 'utf-8'))
+
+        ec2.CfnEIPAssociation(self, "MinecraftIp",
+            allocation_id="eipalloc-002456c0178e856c1",
+            instance_id=instance.instance_id)
