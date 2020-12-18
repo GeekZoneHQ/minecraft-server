@@ -28,6 +28,8 @@ class MinecraftServer(core.Stack):
             ec2.Port.tcp(22), "Allow ssh access")
         security_group.add_ingress_rule(ec2.Peer.any_ipv4(),
             ec2.Port.tcp(25565), "Spigot port")
+        security_group.add_ingress_rule(ec2.Peer.any_ipv4(),
+             ec2.Port.tcp(8123), "Dynmap")
 
         role = iam.Role(self, "MinecraftServerRole",
             assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))
