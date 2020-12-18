@@ -4,6 +4,10 @@ set -e
 apt update -y && apt upgrade -y
 apt install openjdk-11-jdk awscli -y
 
+# Allow admins to ssh into the server
+# James Geddes
+echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC6RQjg6GiRDQT8tayyue8MJEFcE7LrrxOUxUboI3zOZJASIhyD44NRHkKCCIRShtk1lx/zBxFAey12KdcXiPSpYDKXtfM2F5Deb3/q2DvtvdTJYit9wb7Yxlr2Xpvw3oSvL8xdMjCge7hTNMO3oqKp0nJohoSqh2jSYWbcP414i0R851kINyx4PFDw3x/b5WUCQivPIBzsZxiIcbfqx9dzRl+pH4T+z4+M5EsOs5wcnYM+gzHCK/n3BGW5NFMwyBag13y/BR/dPBBxTp+wFdoIMDw+Kca92SG1zkGUe0boR9hJPTsX0ZkSDl9e231jbDvbOErFmm9w+JFh+FL8LQuKp/aXyNX/SdspA/Mv7+y84o3TctgpFEatj1nbCQrvnfIdzjBAgGUFobIMrSyMGVX6SY+xN1op0NqniRE9Lr9wtLT/AN3bF1Z0baYMufSNi6jnpx17OIM3n3oWV8Gq251bsGvSX79aMZ6qw6kRUwFKpsppl44/GUNwHu/T2g6HDka/ykHaspV4tt5XczlaozsgUe9aDQGuOgB+cTPXlsymwTOZyJv1+e1l0vBkmd8ax7UhlIE2AfcnMHUzcwyCCTFKUZSlPcgPXiyH2eFPDN2Mw2G67ToZ9J+9M8X/lbkBC8gTUoeHUxH4pVzI89WGIiDw3MG6UeAVUPiLCNkDyOsdeQ== j@jamesgeddes.pro" >> .ssh/authorized_keys
+
 # Setup directory structure and users
 mkdir /opt/minecraft-server
 mkdir /opt/geekzone-minecraft-config
