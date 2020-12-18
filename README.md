@@ -32,3 +32,25 @@ sudo su - minecraft
 screen -r minecraft
 ```
 When you are finished with the console press `ctrl-a d` to detach from the screen session.
+
+## Creating a manual backup
+
+Backups are scheduled to run automatically, but if you need to manually backup the server to install a plugin or update minecraft you can run the following commands as the `ubuntu` user.
+
+```sh
+sudo systemctl stop minecraft
+sudo /opt/minecraft-utils/backup-minecraft.sh
+```
+
+## How to install a plugin
+
+Plugins are located at `/opt/geekzone-minecraft-config/plugins/`. To install a plugin simply copy the `.jar` file to this directory.
+
+Most plugin jar files can be downloaded with wget. Here is an example plugin installation.
+
+```ssh
+sudo su minecraft
+wget https://github.com/webbukkit/dynmap/releases/download/v3.1-beta-2/Dynmap-3.1-beta-2-spigot.jar
+# Restart the minecraft server world to load the plugin
+sudo systemctl restart minecraft
+```
