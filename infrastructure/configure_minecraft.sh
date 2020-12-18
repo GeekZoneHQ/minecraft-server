@@ -74,7 +74,7 @@ cat <<EOF > /etc/systemd/system/minecraft-backup.timer
 Description=Backup the minecraft server once a day
 
 [Timer]
-OnCalendar=*-*-* 02:00:00
+OnCalendar=*-*-* 07:00:00
 Unit=minecraft-backup.service
 
 [Install]
