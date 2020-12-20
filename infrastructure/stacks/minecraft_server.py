@@ -4,7 +4,11 @@ from aws_cdk import (
     aws_iam as iam,
     core
 )
-from aws_cdk.aws_ec2 import UserData
+from aws_cdk.aws_ec2 import (
+    UserData,
+    BlockDevice,
+    BlockDeviceVolume
+)
 
 class BackupBucket(core.Stack):
     def __init__(self, scope: core.Construct, id: str, **kwargs) -> None:
@@ -52,7 +56,11 @@ class MinecraftServer(core.Stack):
             vpc=vpc,
             security_group=security_group,
             key_name="carwyn",
-            role=role)
+            role=role,
+            block_devices=[BlockDevice(
+                device_name="/dev/sda1",
+                volume=BlockDeviceVolume.ebs(20))]
+        )
         setup_file = open("./configure_minecraft.sh", "rb").read()
         instance.user_data.add_commands(str(setup_file, 'utf-8'))
 
